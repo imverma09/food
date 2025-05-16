@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Trash2 } from 'lucide-react';
+ const api = "https://food-1-8pg1.onrender.com"
 function Admin() {
   const [view, setView] = useState('categories'); // 'categories', 'products', or 'orders'
   const [categories, setCategories] = useState([]);
@@ -23,7 +24,7 @@ function Admin() {
   // Fetch categories
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/categories');
+      const response = await axios.get(`${api}/api/categories`);
       setCategories(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -33,7 +34,7 @@ function Admin() {
   // Fetch products
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/products');
+      const response = await axios.get(`${api}/api/products`);
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -43,7 +44,7 @@ function Admin() {
   // Fetch orders
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/orders');
+      const response = await axios.get(`${api}/api/orders`);
       setOrders(response.data);
     } catch (error) {
       console.error('Error fetching orders:', error);
@@ -54,7 +55,7 @@ function Admin() {
   const handleAddCategory = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/categories', newCategory);
+      await axios.post(`${api}/api/categories`, newCategory);
       setNewCategory({ name: '', slug: '' });
       fetchCategories();
     } catch (error) {
@@ -67,7 +68,7 @@ function Admin() {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/products', newProduct);
+      await axios.post(`${api}/api/products`, newProduct);
       setNewProduct({ name: '', price: '', categoryId: '' });
       fetchProducts();
     } catch (error) {
@@ -93,7 +94,7 @@ function Admin() {
   // Delete product 
   const  deleteProduct = async (_id)=>{
     try {
-      const response = await axios.delete(`http://localhost:5000/api/products/${_id}`);
+      const response = await axios.delete(`${api}/api/products/${_id}`);
        alert(response.data.message)
     } catch (error) {
       console.error('Error deleting product:', error);
@@ -103,7 +104,7 @@ function Admin() {
   }
   const  deleteCategory = async (_id)=>{
     try {
-      const response = await axios.delete(`http://localhost:5000/api/category/${_id}`);
+      const response = await axios.delete(`${api}/api/category/${_id}`);
        alert(response.data.message)
     } catch (error) {
       console.error('Error deleting product:', error);
@@ -114,7 +115,7 @@ function Admin() {
 
   const  deleteOrder = async (_id)=>{
     try {
-      const response = await axios.delete(`http://localhost:5000/api/order/${_id}`);
+      const response = await axios.delete(`${api}/api/order/${_id}`);
        alert(response.data.message)
     } catch (error) {
       console.error('Error deleting product:', error);

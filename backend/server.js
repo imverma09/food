@@ -12,13 +12,17 @@ const app = express();
 
 
 // Middleware
-app.use(cors());
+app.use(cors(
+      {
+        origin : 'https://food-two-lilac.vercel.app/'
+      }
+));
 app.use(express.json());
 
 // Connect to MongoDB
 mongoose
   .connect(
-    process.env.MONGODB_URI || "mongodb://localhost:27017/restaurant-billing",
+    process.env.MONGODB_URI || "mongodb+srv://imverma45:tz8d0uX7H9SLVId8@food.ammcdmj.mongodb.net/?retryWrites=true&w=majority&appName=food",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

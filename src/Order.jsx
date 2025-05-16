@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+ const api = "https://food-1-8pg1.onrender.com"
 function Order() {
   const [orders, setOrders] = useState([]);
   useEffect(()=>{
@@ -10,7 +11,7 @@ function Order() {
   const deleteOrder = async (_id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/order/${_id}`
+        `${api}/api/order/${_id}`
       );
       alert(response.data.message);
     } catch (error) {
@@ -21,7 +22,7 @@ function Order() {
   // Fetch orders
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/todayOrders");
+      const response = await axios.get(`${api}/api/todayOrders`);
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);

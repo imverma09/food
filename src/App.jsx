@@ -9,11 +9,12 @@ function App() {
   const [customerName, setCustomerName] = useState('');
   const [total, setTotal] = useState(0);
   const [message ,setMessage] = useState("")
+  const api = "https://food-1-8pg1.onrender.com"
   // Fetch categories from backend
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/categories');
+        const response = await axios.get(`${api}/api/categories`);
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -27,7 +28,7 @@ function App() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/products${category !== 'all' ? `?category=${category}` : ''}`);
+        const response = await axios.get(`${api}/api/products${category !== 'all' ? `?category=${category}` : ''}`);
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -94,7 +95,7 @@ function App() {
         orderDate: new Date()
       };
       
-      await axios.post('http://localhost:5000/api/orders', orderData);
+      await axios.post(`${api}/api/orders`, orderData);
       alert('Order submitted successfully!');
       setCart([]);
       setCustomerName('');
