@@ -14,7 +14,7 @@ const app = express();
 // Middleware
 app.use(cors(
       {
-        origin : 'https://food-two-lilac.vercel.app/'
+        origin : [ "https://food-two-lilac.vercel.app","https://food-1-8pg1.onrender.com"]
       }
 ));
 app.use(express.json());
