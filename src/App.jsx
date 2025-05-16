@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { MSquare } from 'lucide-react';
 function App() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
@@ -96,7 +95,7 @@ function App() {
       };
       
       await axios.post('http://localhost:5000/api/orders', orderData);
-      setMessage('Order submitted successfully!');
+      alert('Order submitted successfully!');
       setCart([]);
       setCustomerName('');
     } catch (error) {
@@ -115,8 +114,8 @@ function App() {
     <div className="flex flex-col min-h-screen bg-black text-white">
       {/* Header */}
       <div className="border-b border-gray-700 flex justify-between p-4">
-        <div className="w-1/2">
-
+        <div className="w-1/2 text-3xl ">
+         GUPSHUP GRILL
         </div>
           <div><Link to={'todayOrder'} className='border border-gray-500 rounded px-4 py-1'>Today Order</Link></div>
         <div className="w-1/4 text-right">
