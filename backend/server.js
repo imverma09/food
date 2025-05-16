@@ -168,6 +168,21 @@ app.delete("/api/order/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+app.delete("/api/category/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+      await Product.deleteMany({ category: id });
+      const product = await Category.findByIdAndDelete(id);
+    if (!product) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    res.status(200).json({ message: " Category and related products deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting Category:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 app.get("/api/todayOrders", async (req, res) => {
   try {
     // Get today's date at the start of the day (midnight)

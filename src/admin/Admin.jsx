@@ -101,6 +101,17 @@ function Admin() {
     setProducts(products.filter( val => val._id !==_id ))
 
   }
+  const  deleteCategory = async (_id)=>{
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/category/${_id}`);
+       alert(response.data.message)
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+    setCategories(categories.filter( val => val._id !==_id ))
+    fetchProducts();
+  }
+
   const  deleteOrder = async (_id)=>{
     try {
       const response = await axios.delete(`http://localhost:5000/api/order/${_id}`);
@@ -298,6 +309,7 @@ const [formData, setFormData] = useState({
                 <tr className="bg-gray-900">
                   <th className="border border-gray-700 p-2 text-left">Name</th>
                   <th className="border border-gray-700 p-2 text-left">Slug</th>
+                  <th className="border border-gray-700 p-2 text-left">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -305,6 +317,7 @@ const [formData, setFormData] = useState({
                   <tr key={cat._id} className="border-b border-gray-700">
                     <td className="border border-gray-700 p-2">{cat.name}</td>
                     <td className="border border-gray-700 p-2">{cat.slug}</td>
+                   <td className="border border-gray-700 p-2 text-center"> <button className='bg-red-600 px-3 py-2 rounded' onClick={()=>{ deleteCategory(cat._id)}} ><Trash2 /></button> </td>
                   </tr>
                 ))}
                 {categories.length === 0 && (
