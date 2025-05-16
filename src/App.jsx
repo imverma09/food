@@ -115,8 +115,10 @@ function App() {
     <div className="flex flex-col min-h-screen bg-black text-white">
       {/* Header */}
       <div className="border-b border-gray-700 flex justify-between p-4">
-        <div className="w-1/2"></div>
-     
+        <div className="w-1/2">
+
+        </div>
+          <div><Link to={'todayOrder'} className='border border-gray-500 rounded px-4 py-1'>Today Order</Link></div>
         <div className="w-1/4 text-right">
           <Link to={'/admin'} className="border border-gray-500 rounded px-4 py-1">Admin</Link>
         </div>

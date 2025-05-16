@@ -10,6 +10,7 @@ dotenv.config();
 // Initialize Express app
 const app = express();
 
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -167,20 +168,44 @@ app.delete("/api/order/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-// Get a specific order
-app.get("/api/orders/:id", async (req, res) => {
+app.get("/api/todayOrders", async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
-    if (!order) {
-      return res.status(404).json({ message: "Order not found" });
-    }
-    res.json(order);
+    // Get today's date at the start of the day (midnight)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // Get tomorrow's date (midnight)
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    // Find orders where orderDate is between today and tomorrow
+    const orders = await Order.find({
+      orderDate: {
+        $gte: today,
+        $lt: tomorrow
+      }
+    }).sort({ orderDate: -1 });
+    
+    res.json(orders);
   } catch (error) {
-    console.error("Error fetching order:", error);
+    console.error("Error fetching orders:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
+
+// Get a specific order
+// app.get("/api/orders/:id", async (req, res) => {
+//   try {
+//     const order = await Order.findById(req.params.id);
+//     if (!order) {
+//       return res.status(404).json({ message: "Order not found" });
+//     }
+//     res.json(order);
+//   } catch (error) {
+//     console.error("Error fetching order:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// });
 
 // Set port and start server
 const PORT = process.env.PORT || 5000;
