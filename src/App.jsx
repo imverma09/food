@@ -113,6 +113,7 @@ function App() {
       console.error("Error submitting order:", error);
       alert("Failed to submit order. Please try again.");
     }
+    setMessage("")
   };
 
   // Format date for display
