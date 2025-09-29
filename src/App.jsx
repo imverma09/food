@@ -10,6 +10,7 @@ function App() {
   const [total, setTotal] = useState(0);
   const [message, setMessage] = useState("");
   const api = "https://food-1-8pg1.onrender.com";
+  // const api = "http://localhost:5000"
   // Fetch categories from backend
 
   useEffect(() => {
@@ -169,7 +170,7 @@ function App() {
               }`}
               onClick={() => setCategory(cat.slug)}
             >
-              {cat.name.toLowerCase()}
+              {cat.name}
             </div>
           ))}
         </div>

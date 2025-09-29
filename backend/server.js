@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
-// const Order = require('./model/order')
+
 const { Category, Product, Order } = require("./model/product");
 // Load environment variables
 dotenv.config();
@@ -10,13 +10,13 @@ dotenv.config();
 // Initialize Express app
 const app = express();
 
-
 // Middleware
 app.use(cors(
       {
-        origin : [ "https://food-two-lilac.vercel.app","https://food-1-8pg1.onrender.com"]
+        origin : [ "https://food-two-lilac.vercel.app", "http://localhost:3000"]
       }
 ));
+// app.use(cors())
 app.use(express.json());
 
 // Connect to MongoDB

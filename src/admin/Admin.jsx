@@ -3,12 +3,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 const api = "https://food-1-8pg1.onrender.com";
+// const api = "http://localhost:5000";
+
 function Admin() {
   const [view, setView] = useState("categories"); // 'categories', 'products', or 'orders'
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   // Form states
   const [newCategory, setNewCategory] = useState({ name: "", slug: "" });
@@ -59,12 +62,17 @@ function Admin() {
   const handleAddCategory = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true)
       await axios.post(`${api}/api/categories`, newCategory);
       setNewCategory({ name: "", slug: "" });
       fetchCategories();
+      alert("category Add !")
+      setLoading(false)
+      
     } catch (error) {
       console.error("Error adding category:", error);
       alert(error.response?.data?.message || "Error adding category");
+      setLoading(false)
     }
   };
 
@@ -72,12 +80,16 @@ function Admin() {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true)
       await axios.post(`${api}/api/products`, newProduct);
       setNewProduct({ name: "", price: "", categoryId: "" });
       fetchProducts();
+      alert("Product Add !")
+      setLoading(false)
     } catch (error) {
       console.error("Error adding product:", error);
       alert(error.response?.data?.message || "Error adding product");
+      setLoading(false)
     }
   };
 
@@ -194,7 +206,9 @@ function Admin() {
               <p className="">
                 Enter your credentials to access the admin panel
               </p>
-              <p className="">Username : {VALID_USERNAME} , Password : {VALID_PASSWORD}</p>
+              <p className="">
+                Username : {VALID_USERNAME} , Password : {VALID_PASSWORD}
+              </p>
             </div>
 
             {error && (
@@ -262,7 +276,7 @@ function Admin() {
 
             <button
               onClick={handleLogout}
-              className=" bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+              className=" bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded cursor-pointer focus:outline-none focus:shadow-outline"
             >
               Logout
             </button>
@@ -271,7 +285,7 @@ function Admin() {
           {/* Navigation */}
           <div className="flex mb-6 border-b border-gray-700 pb-2">
             <button
-              className={`mr-4 px-4 py-2 ${
+              className={`mr-4 px-4 py-2 cursor-pointer ${
                 view === "categories" ? "bg-gray-800" : ""
               }`}
               onClick={() => setView("categories")}
@@ -279,7 +293,7 @@ function Admin() {
               Categories
             </button>
             <button
-              className={`mr-4 px-4 py-2 ${
+              className={`mr-4 px-4 py-2 cursor-pointer ${
                 view === "products" ? "bg-gray-800" : ""
               }`}
               onClick={() => setView("products")}
@@ -287,7 +301,9 @@ function Admin() {
               Products
             </button>
             <button
-              className={`px-4 py-2 ${view === "orders" ? "bg-gray-800" : ""}`}
+              className={`px-4 py-2 cursor-pointer ${
+                view === "orders" ? "bg-gray-800" : ""
+              }`}
               onClick={() => setView("orders")}
             >
               Orders
@@ -329,8 +345,38 @@ function Admin() {
                     Slug is used for URL (e.g. "pizzas")
                   </small>
                 </div>
-                <button type="submit" className="bg-blue-700 px-4 py-2 rounded">
-                  Add Category
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex items-center gap-2 bg-blue-700 text-white px-4 py-2 rounded active:scale-95 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <>
+                      <svg
+                        className="animate-spin h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                        ></path>
+                      </svg>
+                      Loading...
+                    </>
+                  ) : (
+                    "Add Category"
+                  )}
                 </button>
               </form>
 
@@ -362,7 +408,7 @@ function Admin() {
                         <td className="border border-gray-700 p-2 text-center">
                           {" "}
                           <button
-                            className="bg-red-600 px-3 py-2 rounded"
+                            className="bg-red-600 px-3 py-2 rounded active:scale-95 cursor-pointer"
                             onClick={() => {
                               deleteCategory(cat._id);
                             }}
@@ -440,8 +486,45 @@ function Admin() {
                     ))}
                   </select>
                 </div>
-                <button type="submit" className="bg-blue-700 px-4 py-2 rounded">
+                {/* <button
+                  type="submit"
+                  className="bg-blue-700 px-4 py-2 rounded active:scale-95 cursor-pointer"
+                >
                   Add Product
+                </button> */}
+
+                 <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex items-center gap-2 bg-blue-700 text-white px-4 py-2 rounded active:scale-95 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <>
+                      <svg
+                        className="animate-spin h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                        ></path>
+                      </svg>
+                      Loading...
+                    </>
+                  ) : (
+                    "Add Product"
+                  )}
                 </button>
               </form>
 
@@ -482,7 +565,7 @@ function Admin() {
                         <td className="border border-gray-700 p-2 text-center">
                           {" "}
                           <button
-                            className="bg-red-600 px-3 py-2 rounded"
+                            className="bg-red-600 px-3 py-2 rounded active:scale-95 cursor-pointer"
                             onClick={() => {
                               deleteProduct(product._id);
                             }}
